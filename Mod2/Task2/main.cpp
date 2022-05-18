@@ -21,6 +21,17 @@ template <class T> class CNode{
 			key = _key;
 			left = right = NULL;
 		};
+		CNode(const CNode& node){
+			key = node.key;
+			left = new CNode(*node.left);
+			right = new CNode(*node.right);
+		};
+		CNode& operator=(const CNode& node){
+			key = node.key;
+			left = new CNode(*node.left);
+			right = new CNode(*node.right);
+			return *this;
+		};
         T get_key() { return key; };
 		void print(std::ostream& out){
 			out << key;
@@ -34,6 +45,14 @@ class BinTree{
 		Comparator cmp;
     public:
         BinTree(Comparator _cmp = Comparator()): root(NULL), cmp(_cmp){};
+		BinTree(const BinTree& tree){
+			cmp = tree.cmp;
+			root = new CNode(*tree.root);
+		};
+		BinTree& operator=(const BinTree& tree){
+			cmp = tree.cmp;
+			root = new CNode(*tree.root);
+		};
 		~BinTree(){
 			if( root == NULL ) return;
 			std::queue<CNode<T>*> queue;

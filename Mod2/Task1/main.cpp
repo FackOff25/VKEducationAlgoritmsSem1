@@ -77,9 +77,8 @@ class HashTable{
 		};
 
 		~HashTable(){
-			int len = table.size();
-			for ( int i = 0; i < len; ++i ){
-				if ( !table[i] ) delete table[i];
+			for ( T* elem: table){
+				delete elem;
 			}
 		};
 
