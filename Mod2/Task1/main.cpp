@@ -7,7 +7,7 @@ template <typename T, typename Hasher>
 class HashTable{
 	private:
 		
-		std::vector<T*> table;
+		std::vector<T> table;
 		std::vector<bool> deleted;
 		int size;
 		Hasher hasher1, hasher2;
@@ -24,7 +24,7 @@ class HashTable{
 		};
 		void expand(){
 
-			std::vector<T*> newTable(table.size() * 2);
+			std::vector<T> newTable(table.size() * 2);
 			for ( int i = 0; i < table.size(); ++i ){
 				if ( table[i] ){
 					size_t hash1 = hasher1(*table[i]);
@@ -56,10 +56,7 @@ class HashTable{
 			hasher1 = oldTable.hasher1;
 			hasher2 = oldTable.hasher2;
 
-			table = std::vector<T*>(oldTable.table.size());
-			for( int i = 0; i < oldTable.table.size(); ++i) {
-				if(!oldTable.table[i]) table[i] = new T(*oldTable.table[i]);
-			}
+			table = oldTable.table.size();
 		};
 		HashTable operator=(const HashTable<T, Hasher>& oldTable)
 		{
@@ -69,17 +66,11 @@ class HashTable{
 			hasher1 = oldTable.hasher1;
 			hasher2 = oldTable.hasher2;
 
-			table = std::vector<T*>(oldTable.table.size());
-			for( int i = 0; i < oldTable.table.size(); ++i) {
-				if(!oldTable.table[i]) table[i] = new T(*oldTable.table[i]);
-			}
+			table = oldTable.table;
 			return *this;
 		};
 
 		~HashTable(){
-			for ( T* elem: table){
-				delete elem;
-			}
 		};
 
 		bool add(const T& key){
@@ -93,7 +84,7 @@ class HashTable{
 			int i;
 			for ( i = hash1 % table.size(); table[i]; i = (i + ( 2 * hash2 + 1 )) % table.size() )
 			;
-			table[i] = new T(key);
+			table[i] = T;
 			++size;
 			return true;
 		};
@@ -104,13 +95,11 @@ class HashTable{
 
 			int i;
 			for ( i = hash1 % table.size();	( table[i] ) || deleted[i];	i = (i + ( 2 * hash2 + 1 )) % table.size() ){
-				if ( table[i] )	
-					if (*table[i] == key) {
-						delete table[i];
-						table[i] = NULL;
-						deleted[i] = true;
-						return true;
-					}
+				if (table[i] == key) {
+					table[i] = 0;
+					deleted[i] = true;
+					return true;
+				}
 			}
 
 			return false;
