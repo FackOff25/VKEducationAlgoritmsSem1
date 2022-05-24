@@ -6,44 +6,41 @@
 template <typename T, typename Hasher>
 class HashTable{
 	private:
-		
+		enum state{ empty, full, deleted};
 		std::vector<T> table;
-		std::vector<bool> deleted;
+		std::vector<enum state> deletedTable;
 		int size;
 		Hasher hasher1, hasher2;
 		const float MAX_ALPHA;
 		bool checkByHash(const size_t& hash1, const size_t& hash2, const T& key){
 			int i;
-			for ( i = hash1 % table.size();	( table[i] ) || deleted[i];	i = (i + ( 2 * hash2 + 1 )) % table.size() ){
-				if ( table[i] )
-					if (*table[i] == key) return true;
-			}
-			;
-			if ( table[i] ) return true;
-			else return false;
+			for ( i = hash1 % table.size();	deletedTable[i] != empty;	i = (i + ( 2 * hash2 + 1 )) % table.size() ){
+					if (deletedTable[i] != deleted && table[i] == key) return true;
+			};
+			return false;
 		};
 		void expand(){
 
 			std::vector<T> newTable(table.size() * 2);
+			std::vector<enum state> newDeleted(table.size() * 2, empty);
 			for ( int i = 0; i < table.size(); ++i ){
-				if ( table[i] ){
-					size_t hash1 = hasher1(*table[i]);
-					size_t hash2 = hasher2(*table[i]);
+				size_t hash1 = hasher1(table[i]);
+				size_t hash2 = hasher2(table[i]);
 
-					int j;
-					for ( j = hash1 % newTable.size(); newTable[j]; j = (j + ( 2 * hash2 + 1 )) % newTable.size() )
-					;
-					newTable[j] = table[i];
-				}
+				int j;
+				for ( j = hash1 % newTable.size(); newDeleted[j] != empty; j = (j + ( 2 * hash2 + 1 )) % newTable.size() )
+				;
+				newTable[j] = table[i];
+				newDeleted[j] = full;
 			}
 
 			table = newTable;
-			deleted = std::vector<bool>(table.size() * 2);
+			deletedTable = newDeleted;
 		};
 	public:
 		HashTable(Hasher hasher1, Hasher hasher2, size_t _size = INITIAL_CAPACITY, float alpha = 0.75): 
-			table(_size, NULL), 
-			deleted(_size, false), 
+			table(_size), 
+			deletedTable(_size, empty), 
 			size(0), 
 			MAX_ALPHA(alpha)
 		{
@@ -51,17 +48,17 @@ class HashTable{
 		HashTable(const HashTable<T, Hasher>& oldTable)
 		{
 			size = oldTable.size;
-			deleted = oldTable.deleted;
+			deletedTable = oldTable.deletedTable;
 			MAX_ALPHA = oldTable.MAX_ALPHA;
 			hasher1 = oldTable.hasher1;
 			hasher2 = oldTable.hasher2;
 
-			table = oldTable.table.size();
+			table = oldTable.table;
 		};
 		HashTable operator=(const HashTable<T, Hasher>& oldTable)
 		{
 			size = oldTable.size;
-			deleted = oldTable.deleted;
+			deletedTable = oldTable.deletedTable;
 			MAX_ALPHA = oldTable.MAX_ALPHA;
 			hasher1 = oldTable.hasher1;
 			hasher2 = oldTable.hasher2;
@@ -79,12 +76,13 @@ class HashTable{
 
 			size_t hash1 = hasher1(key);
 			size_t hash2 = hasher2(key);
-			if ( checkByHash(hash1, hash2, key) ) return false;
 
 			int i;
-			for ( i = hash1 % table.size(); table[i]; i = (i + ( 2 * hash2 + 1 )) % table.size() )
-			;
-			table[i] = T;
+			for ( i = hash1 % table.size(); deletedTable[i] == full; i = (i + ( 2 * hash2 + 1 )) % table.size() )
+				if(table[i] == key) return false;
+			
+			table[i] = key;
+			deletedTable[i] = full;
 			++size;
 			return true;
 		};
@@ -94,10 +92,9 @@ class HashTable{
 			size_t hash2 = hasher2(key);
 
 			int i;
-			for ( i = hash1 % table.size();	( table[i] ) || deleted[i];	i = (i + ( 2 * hash2 + 1 )) % table.size() ){
+			for ( i = hash1 % table.size();	deletedTable[i] != empty;	i = (i + ( 2 * hash2 + 1 )) % table.size() ){
 				if (table[i] == key) {
-					table[i] = 0;
-					deleted[i] = true;
+					deletedTable[i] = deleted;
 					return true;
 				}
 			}
