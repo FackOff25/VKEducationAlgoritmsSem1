@@ -53,3 +53,12 @@ std::vector<int> ListGraph::GetPrevVertices(int vertex) const{
 			vertexes.push_back(i);
 	return vertexes;
 };
+
+void ListGraph::print(std::ostream& out) const{
+	for(int i = 0; i < lists.size(); ++i){
+		out << i << ")";
+		for(int vertex : lists[i])
+			out << " " << vertex;
+		out << std::endl;
+	}
+};

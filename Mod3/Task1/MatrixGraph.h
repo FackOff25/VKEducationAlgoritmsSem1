@@ -19,6 +19,7 @@ struct MatrixGraph : public IGraph {
 
 		std::vector<int> GetNextVertices(int vertex) const override;
 		std::vector<int> GetPrevVertices(int vertex) const override;
+		void print(std::ostream& out) const override;
 };
 
 #endif

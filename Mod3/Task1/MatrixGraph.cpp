@@ -51,3 +51,25 @@ std::vector<int> MatrixGraph::GetPrevVertices(int vertex) const{
 		if(matrix[i][vertex] == 1) vertices.push_back(i);
 	return vertices;
 };
+
+void MatrixGraph::print(std::ostream& out) const{
+	int size = matrix.size();
+
+	out << "  ";
+	for(int i = 0; i < size; ++i)
+		out << " " << i;
+	out << std::endl;
+
+	out << "——";
+	for(int i = 0; i < size; ++i)
+		out << "——";
+
+	out << std::endl;
+
+	for(int i = 0; i < size; ++i){
+		out << i << "|";
+		for (int j = 0; j < size; ++j)
+			out << " " << matrix[i][j];
+		out << std::endl;
+	}
+};
