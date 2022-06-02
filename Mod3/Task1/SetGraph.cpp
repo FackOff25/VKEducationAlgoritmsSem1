@@ -42,7 +42,7 @@ std::vector<int> SetGraph::GetNextVertices(int vertex) const{
 	
 	std::vector<int> vertexes;
 	for(std::pair<int,int> vertex : maps[vertex])
-			vertexes.push_back(vertex.second);
+			vertexes.push_back(vertex.first);
 	return vertexes;
 };
 
