@@ -1,5 +1,7 @@
 #include "ArcGraph.h"
 
+#include <iostream>
+
 ArcGraph::ArcGraph(int vertexNum){};
 
 ArcGraph::ArcGraph(const IGraph& graph){
@@ -36,8 +38,8 @@ void ArcGraph::AddEdge(int from, int to){
 int ArcGraph::VerticesCount() const{
 	std::vector<int> vertices;
 	for(std::pair<int, int> edge : edges){
-		if(contains(vertices, edge.first))	vertices.push_back(edge.first);
-		if(contains(vertices, edge.second))	vertices.push_back(edge.second);
+		if(!contains(vertices, edge.first))	vertices.push_back(edge.first);
+		if(!contains(vertices, edge.second))	vertices.push_back(edge.second);
 	}
 	return vertices.size();
 };
@@ -57,9 +59,11 @@ bool ArcGraph::contains(std::vector<int> list, int vertex) const{
 
 std::vector<int> ArcGraph::GetNextVertices(int vertex) const{
 	std::vector<int> vertices;
-	for(std::pair<int, int> edge : edges)
-		if(edge.first == vertex)
+	for(std::pair<int, int> edge : edges){
+		if(edge.first == vertex){
 			vertices.push_back(edge.second);
+		}
+	}
 	return vertices;
 };
 
