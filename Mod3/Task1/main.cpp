@@ -41,7 +41,7 @@ int main(){
 	std::cout << "SetGraph common filling show" << std::endl;
 	setGraph.print(std::cout);
 	
-	/*
+	
 	ArcGraph arcGraph(5);
 	arcGraph.AddEdge(0,1);
 	arcGraph.AddEdge(0,2);
@@ -53,5 +53,5 @@ int main(){
 	arcGraph.AddEdge(4,3);
 	std::cout << "ArcGraph common filling show" << std::endl;
 	arcGraph.print(std::cout);
-	*/
+	
 }
