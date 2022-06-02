@@ -2,6 +2,7 @@
 #define IGRAPH
 
 #include <vector>
+#include <ostream>
 
 struct IGraph {
 	virtual ~IGraph() {}
@@ -13,6 +14,7 @@ struct IGraph {
 
 	virtual std::vector<int> GetNextVertices(int vertex) const = 0;
 	virtual std::vector<int> GetPrevVertices(int vertex) const = 0;
+	virtual void print(std::ostream& out) const = 0;
 };
 
 #endif
