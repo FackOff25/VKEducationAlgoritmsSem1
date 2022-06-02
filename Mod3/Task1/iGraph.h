@@ -1,3 +1,6 @@
+#ifndef IGRAPH
+#define IGRAPH
+
 #include <vector>
 
 struct IGraph {
@@ -12,3 +15,4 @@ struct IGraph {
 	virtual std::vector<int> GetPrevVertices(int vertex) const = 0;
 };
 
+#endif
