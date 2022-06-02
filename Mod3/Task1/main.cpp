@@ -17,6 +17,7 @@ int main(){
 	listGraph.AddEdge(4,3);
 	std::cout << "ListGraph common filling show" << std::endl;
 	listGraph.print(std::cout);
+
 	MatrixGraph matrixGraph(5);
 	matrixGraph.AddEdge(0,1);
 	matrixGraph.AddEdge(0,2);
@@ -54,4 +55,20 @@ int main(){
 	std::cout << "ArcGraph common filling show" << std::endl;
 	arcGraph.print(std::cout);
 	
+
+	ListGraph listGraph2(matrixGraph);
+	std::cout << "ListGraph copying from MatrixGraph show" << std::endl;
+	listGraph.print(std::cout);
+	
+	MatrixGraph matrixGraph2(setGraph);
+	std::cout << "MatrixGraph copying from SetGraph show" << std::endl;
+	matrixGraph2.print(std::cout);
+	
+	SetGraph setGraph2(arcGraph);
+	std::cout << "SetGraph copying from ArcGraph show" << std::endl;
+	setGraph2.print(std::cout);
+	
+	ArcGraph arcGraph2(listGraph);
+	std::cout << "ArcGraph copying from ListGraph show" << std::endl;
+	arcGraph2.print(std::cout);
 }
