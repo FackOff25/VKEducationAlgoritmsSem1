@@ -29,7 +29,7 @@ SetGraph SetGraph::operator=(const IGraph& graph){
 // Добавление ребра от from к to.
 void SetGraph::AddEdge(int from, int to){
 	if(maps.size() <= from || maps.size() <= to || from < 0 || to < 0) return;
-	if(maps[from].contains(to)) return;
+	if(maps[from].contains(to)) return; 		//comment for multiple edges between vertices
 	maps[from].insert(std::make_pair(to, 1));
 };
 

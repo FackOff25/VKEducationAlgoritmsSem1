@@ -32,7 +32,8 @@ MatrixGraph MatrixGraph::operator=(const IGraph& graph){
 // Добавление ребра от from к to.
 void MatrixGraph::AddEdge(int from, int to){
 	if(matrix.size() <= from || matrix.size() <= to || from < 0 || to < 0) return;
-	matrix[from][to] = 1;
+	matrix[from][to] = 1;		//for multiple edges between vertices comment this line
+	//++matrix[from][to];		//and uncoment this
 };
 
 int MatrixGraph::VerticesCount() const{
@@ -45,6 +46,7 @@ std::vector<int> MatrixGraph::GetNextVertices(int vertex) const{
 		if(matrix[vertex][i] == 1) vertices.push_back(i);
 	return vertices;
 };
+
 std::vector<int> MatrixGraph::GetPrevVertices(int vertex) const{
 	std::vector<int> vertices;
 	for(int i = 0; i < matrix.size(); ++i)

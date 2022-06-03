@@ -1,5 +1,6 @@
 #include "ArcGraph.h"
 
+#include <algorithm>
 #include <iostream>
 
 ArcGraph::ArcGraph(int vertexNum){};
@@ -31,7 +32,7 @@ ArcGraph ArcGraph::operator=(const IGraph& graph){
 // Добавление ребра от from к to.
 void ArcGraph::AddEdge(int from, int to){
 	std::pair<int, int> newEdge = std::make_pair(from, to);
-	if(contains(edges, newEdge)) return;
+	if(contains(edges, newEdge)) return;		//comment for multiple edges between vertices
 	edges.push_back(newEdge);
 };
 
@@ -55,7 +56,6 @@ bool ArcGraph::contains(std::vector<int> list, int vertex) const{
 	if(std::find(list.begin(), list.end(), vertex) != list.end()) return true;
 	else return false;
 };
-
 
 std::vector<int> ArcGraph::GetNextVertices(int vertex) const{
 	std::vector<int> vertices;

@@ -25,7 +25,7 @@ ListGraph ListGraph::operator=(const IGraph& graph){
 // Добавление ребра от from к to.
 void ListGraph::AddEdge(int from, int to){
 	if(lists.size() <= from || lists.size() <= to || from < 0 || to < 0) return;
-	if(contains(lists[from], to)) return;
+	if(contains(lists[from], to)) return;		//comment for multiple edges between vertices
 	lists[from].push_back(to);
 };
 
