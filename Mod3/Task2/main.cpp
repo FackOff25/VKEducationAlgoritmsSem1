@@ -1,6 +1,5 @@
 #include <vector>
 #include <queue>
-#include <map>
 #include <algorithm>
 #include <iostream>
 
@@ -57,14 +56,10 @@ struct ListGraph : public IGraph {
 			if(vertex < 0 || lists.size() <=vertex ) return std::vector<int>();
 			return lists[vertex];
 		};
+
 		std::vector<int> GetPrevVertices(int vertex) const override{
 			if(vertex < 0 || lists.size() <=vertex ) return std::vector<int>();
-			
-			std::vector<int> vertexes;
-			for(int i = 0; i < lists.size(); ++i)
-				if(contains(lists[i], vertex))
-					vertexes.push_back(i);
-			return vertexes;
+			return lists[vertex];
 		};
 
 };
