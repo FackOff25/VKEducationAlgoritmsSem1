@@ -60,7 +60,7 @@ struct ListGraph : public IGraph {
 };
 
 
-//necessary and sufficient condition for Euler graph is all vertecies have even 
+//necessary and sufficient condition for Euler graph is all vertecies have even degrees and the graph is connected
 
 bool isEuler(const IGraph& graph){
 	int size = graph.VerticesCount();
@@ -85,6 +85,7 @@ bool isEuler(const IGraph& graph){
 		};
 	}
 
+	//connection check
 	for(bool visit : visited)
 		if(!visit) return false;
 
