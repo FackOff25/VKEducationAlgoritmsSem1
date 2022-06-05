@@ -6,7 +6,7 @@
 template <typename T, typename Hasher>
 class HashTable{
 	private:
-		enum state{ empty, full, deleted};
+		enum state{ empty, full, deleted };
 		std::vector<T> table;
 		std::vector<enum state> deletedTable;
 		int size;
@@ -24,6 +24,7 @@ class HashTable{
 			std::vector<T> newTable(table.size() * 2);
 			std::vector<enum state> newDeleted(table.size() * 2, empty);
 			for ( int i = 0; i < table.size(); ++i ){
+				if(deletedTable[i] != full) continue;
 				size_t hash1 = hasher1(table[i]);
 				size_t hash2 = hasher2(table[i]);
 
@@ -78,8 +79,8 @@ class HashTable{
 			size_t hash2 = hasher2(key);
 
 			int i;
-			for ( i = hash1 % table.size(); deletedTable[i] == full; i = (i + ( 2 * hash2 + 1 )) % table.size() )
-				if(table[i] == key) return false;
+			for ( i = hash1 % table.size(); deletedTable[i] != empty; i = (i + ( 2 * hash2 + 1 )) % table.size() )
+				if(table[i] == key && deletedTable[i] == full) return false;
 			
 			table[i] = key;
 			deletedTable[i] = full;
@@ -93,8 +94,9 @@ class HashTable{
 
 			int i;
 			for ( i = hash1 % table.size();	deletedTable[i] != empty;	i = (i + ( 2 * hash2 + 1 )) % table.size() ){
-				if (table[i] == key) {
+				if (table[i] == key && deletedTable[i] == full) {
 					deletedTable[i] = deleted;
+					--size;
 					return true;
 				}
 			}
