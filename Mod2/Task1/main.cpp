@@ -92,8 +92,8 @@ class HashTable{
 			size_t hash1 = hasher1(key);
 			size_t hash2 = hasher2(key);
 
-			int i;
-			for ( i = hash1 % table.size();	deletedTable[i] != empty;	i = (i + ( 2 * hash2 + 1 )) % table.size() ){
+			int i, j = 0;
+			for ( i = hash1 % table.size();	deletedTable[i] != empty && j < size;	i = (i + ( 2 * hash2 + 1 )) % table.size(), ++j ){
 				if (table[i] == key && deletedTable[i] == full) {
 					deletedTable[i] = deleted;
 					--size;
